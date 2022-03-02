@@ -33,3 +33,9 @@
 另外普通的pull似乎不起作用，应该在pull后面加上`--rebase`参数
 
 菜鸡的rebase那块没学过，不太懂是什么原理，只好按照网上的照做了https://blog.csdn.net/qq_30152625/article/details/90404727
+
+
+
+##### 4.关于默认分支
+
+github在某个版本之后默认分支变成了main，不过本地的git默认的分支还是master，建议将github那里也改为master
