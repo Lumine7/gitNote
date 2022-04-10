@@ -1,4 +1,4 @@
-**也许这些仍然没有显示出git的强大之处，下面我们介绍git最屌的地方**
+**也许这些仍然没有显示出git的强大之处，下面我们介绍git坠屌的地方**
 
 tips：电脑的ssh公钥和私钥在用户 .ssh文件夹里
 
@@ -225,3 +225,41 @@ git merge --no-ff -m "merge with no-ff" dev
 
 
 至此，基于廖雪峰的教程，我已经将git的基本操作学完了；其它很多可能用不太上，用的时候再学吧
+
+
+
+
+
+#### 一个神奇的操作
+
+如果你改了某个文件（通常是某个环境的文件，又不想提交它；你可以在.gitignore里写上它
+
+但是免不了还是要改gitignore，这将导致别人的gitignore被修改，有时候可能会出现一点问题
+
+有没有什么方法让git不提交这个修改呢？
+
+既然git是属于你的，当然可以命令它骗过别人
+
+这时候可以使用：`git update-index --assume-unchanged filename`来让跟踪器忽略这个更改
+
+使用`git update-index --no-assume-unchanged filename`可以恢复
+
+
+
+一段时间后，我发现了这样操作的一个问题；在上次那样操作之后，之后合作者已经提交了新的文件，20多天后，该我工作了，我想拉过来，于是运行`git pull`,报错了，告诉我本地的修改将会被覆盖，让我先commit或者stash
+
+> error: Your local changes to the following files would be overwritten by merge:
+>         package.json
+> Aborting
+
+我很奇怪，pull之前明明检查过status了，我又检查了一遍，并没有更改；
+
+我运行了一下`git stash`，告诉我`No local changes to save`并没有暂存到任何东西,奇怪了
+
+我突然想起来20天前使用的那个不提交修改的trick，明白了
+
+于是先`git update-index --no-assume-unchanged package.json`放它出来
+
+然后`git stash`,再pull，pull完`git stash pop`,提示冲突
+
+手动解决了冲突，**END**
